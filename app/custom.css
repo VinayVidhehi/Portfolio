@@ -1,0 +1,28 @@
+/* styles/custom.css */
+.flip-container {
+    perspective: 1000px;
+  }
+  
+  .flip {
+    transform: rotateY(180deg);
+  }
+  
+  .flipper {
+    position: relative;
+    transition: 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .front,
+  .back {
+    backface-visibility: hidden;
+  }
+  
+  .front {
+    transform: rotateY(0deg);
+  }
+  
+  .back {
+    transform: rotateY(180deg);
+  }
+  

@@ -1,26 +1,94 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 
-const LinkedIn: React.FC = () => {
-  const router = useRouter();
+const Home: React.FC = () => {
+  const [showFirstComponent, setShowFirstComponent] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      router.push('https://www.linkedin.com/in/vinay-vidhehi');
-    }, 5000); // Redirect after 5 seconds
-  }, [router]);
+    const interval = setInterval(() => {
+      setShowFirstComponent((prev) => !prev);
+    }, 4000); // Change component every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-900">
-      <h1 className="text-4xl font-bold text-green-600 mb-4">Welcome, LinkedIn Visitor!</h1>
-      <p className="mb-2">Thank you for visiting my portfolio. You will be redirected to my LinkedIn profile shortly.</p>
-      <p>
-        If you are not redirected, <a href="https://www.linkedin.com/in/your-linkedin-profile" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">click here</a>.
-      </p>
-    </div>
+    <>
+      <div className="relative w-full h-screen flex items-center justify-center bg-black">
+        <div className="absolute w-full h-full">
+          <div className={`flip-container ${showFirstComponent ? 'show-front' : 'show-back'} w-full h-full`}>
+            <div className="flipper w-full h-full">
+              <div className="front w-full h-full absolute flex items-center justify-center bg-black text-white">
+                <h1 className="text-5xl md:text-6xl font-bold">Hey LinkedIn Visitor</h1>
+              </div>
+              <div className="back w-full h-full absolute flex items-center justify-center bg-black text-white">
+                <h1 className="text-5xl md:text-6xl font-bold">Welcome to My Portfolio!</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
+        .flip-container {
+          perspective: 1000px;
+          width: 100%;
+          height: 100%;
+        }
+
+        .flipper {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transition: transform 0.8s ease-in-out;
+          transform-style: preserve-3d;
+        }
+
+        .front,
+        .back {
+          backface-visibility: hidden;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .front {
+          transform: rotateY(0deg);
+        }
+
+        .back {
+          transform: rotateY(180deg);
+        }
+
+        .show-front .flipper {
+          transform: rotateY(0deg);
+        }
+
+        .show-back .flipper {
+          transform: rotateY(180deg);
+        }
+
+        @media (min-width: 768px) {
+          .front h1,
+          .back h1 {
+            font-size: 6rem;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .front h1,
+          .back h1 {
+            font-size: 5rem;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 
-export default LinkedIn;
+export default Home;
